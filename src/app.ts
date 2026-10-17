@@ -28,36 +28,41 @@ export function createApp(container: Container): Hono<{ Variables: AppVariables 
   app.use("*", corsPolicy(env));
 
   // /chat spends API budget, so it is protected whenever CLICK_API_KEY is set.
-  app.use("/chat", async (c, next) => {
-    if (env.CLICK_API_KEY && !bearerMatches(c.req.header("authorization"), env.CLICK_API_KEY)) {
-      const body: ErrorBody = { error: { kind: "unauthorized", message: "Missing or invalid bearer token" } };
-      return c.json(body, 401);
-    }
-    await next();
-  });
-  app.use(
-    "/chat",
-    bodyLimit({
-      maxSize: env.CLICK_MAX_BODY_BYTES,
-      onError: (c) => c.json({ error: { kind: "validation", message: "Request is too large." } } satisfies ErrorBody, 413),
-    }),
-  );
-  // Per-client request rate on the API (expensive workflows get a second, smaller allowance in the route).
-  if (rateLimitEnabled(env)) {
-    app.use("/chat", async (c, next) => {
-      if (c.req.method !== "POST") return next();
-      const verdict = clientLimiter.take("chat", clientKey(c, env), env.RATE_LIMIT_MAX_REQUESTS);
-      if (!verdict.ok) {
-        logger.warn("rate limited", { requestId: c.get("requestId"), bucket: "chat" });
-        return tooManyRequests(c, verdict.retryAfterMs);
+  // Same-origin browser chat (the landing UI) is allowed without a bearer — the key is for external API clients.
+  const chatPaths = ["/chat", "/api/chat"] as const;
+  const sameOriginBrowser = (c: { req: { header: (name: string) => string | undefined } }) =>
+    (c.req.header("sec-fetch-site") ?? "") === "same-origin";
+  for (const path of chatPaths) {
+    app.use(path, async (c, next) => {
+      if (env.CLICK_API_KEY && !sameOriginBrowser(c) && !bearerMatches(c.req.header("authorization"), env.CLICK_API_KEY)) {
+        const body: ErrorBody = { error: { kind: "unauthorized", message: "Missing or invalid bearer token" } };
+        return c.json(body, 401);
       }
       await next();
     });
+    app.use(
+      path,
+      bodyLimit({
+        maxSize: env.CLICK_MAX_BODY_BYTES,
+        onError: (c) => c.json({ error: { kind: "validation", message: "Request is too large." } } satisfies ErrorBody, 413),
+      }),
+    );
+    if (rateLimitEnabled(env)) {
+      app.use(path, async (c, next) => {
+        if (c.req.method !== "POST") return next();
+        const verdict = clientLimiter.take("chat", clientKey(c, env), env.RATE_LIMIT_MAX_REQUESTS);
+        if (!verdict.ok) {
+          logger.warn("rate limited", { requestId: c.get("requestId"), bucket: "chat" });
+          return tooManyRequests(c, verdict.retryAfterMs);
+        }
+        await next();
+      });
+    }
+    app.use(path, async (c, next) => {
+      await next();
+      c.res.headers.set("Cache-Control", "no-store");
+    });
   }
-  app.use("/chat", async (c, next) => {
-    await next();
-    c.res.headers.set("Cache-Control", "no-store");
-  });
 
   app.route("/", systemRoutes(container));
   const discovery = createDiscovery(env, logger);

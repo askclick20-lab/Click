@@ -11,6 +11,7 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "node ./node_modules/typescript/bin/tsc -p tsconfig.build.json",
+    "vercel-build": "npm run build && node scripts/copy-dist-for-vercel.mjs",
     "start": "node dist/index.js",
     "typecheck": "tsc -p tsconfig.json",
     "test": "node scripts/run-tests.mjs",

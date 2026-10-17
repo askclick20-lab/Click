@@ -109,7 +109,7 @@
   // ── Live source status (booleans only, from /health) ──
   (async () => {
     try {
-      const res = await fetch("/health", { cache: "no-store" });
+      const res = await fetch("/api/health", { cache: "no-store" });
       if (!res.ok) throw new Error(String(res.status));
       const { tools = {} } = await res.json();
       for (const card of $$(".source-card[data-tool]")) {

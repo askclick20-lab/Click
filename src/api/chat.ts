@@ -1,4 +1,4 @@
-import { Hono } from "hono";
+import { Hono, type Context } from "hono";
 import { streamSSE } from "hono/streaming";
 import { rateLimitEnabled } from "../config/env.js";
 import type { Container } from "../container.js";
@@ -24,7 +24,7 @@ export function chatRoutes({ env, engine, logger, clientLimiter }: Container): H
   const production = env.NODE_ENV === "production";
   const limited = rateLimitEnabled(env);
 
-  app.post("/chat", async (c) => {
+  const postChat = async (c: Context<{ Variables: AppVariables }>) => {
     const body = await c.req.json().catch(() => undefined);
     const parsed = ChatRequestSchema.safeParse(body);
     if (!parsed.success) {
@@ -100,8 +100,10 @@ export function chatRoutes({ env, engine, logger, clientLimiter }: Container): H
     // Transfer-Encoding: chunked is invalid on HTTP/2 (Vercel) and can stall the stream.
     res.headers.delete("Transfer-Encoding");
     return res;
-  });
+  };
 
+  app.post("/chat", postChat);
+  app.post("/api/chat", postChat);
   return app;
 }
 

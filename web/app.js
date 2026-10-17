@@ -401,6 +401,8 @@ import { assistantMessageFrom, browserStorage, createConversationStore, createSi
     if (kind === "timeout") return "That took too long. Please try again.";
     if (kind === "network") return "Can't reach Click. Check your connection and try again.";
     if (kind === "upstream" || kind === "not_configured" || kind === "auth" || status === 503) return "Click's AI models aren't available right now. Please try again in a moment.";
+    if (status === 404) return "Click's API is not reachable on this host. The latest deploy may still be building.";
+    if (status === 500) return "The Click server failed to start. Check Vercel logs and environment variables.";
     return "Something went wrong on our side. Please try again.";
   };
 
@@ -1460,7 +1462,7 @@ import { assistantMessageFrom, browserStorage, createConversationStore, createSi
     inflight = ctrl;
     let outcome = null; // { response } | { error }
     try {
-      const res = await fetch("/chat", {
+      const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "content-type": "application/json", accept: "text/event-stream" },
         body: JSON.stringify({ message, stream: true, history, ...(context ? { context } : {}) }),
@@ -1719,7 +1721,7 @@ import { assistantMessageFrom, browserStorage, createConversationStore, createSi
   async function loadStatus() {
     statusRefresh.disabled = true;
     try {
-      const res = await fetch("/health", { cache: "no-store" });
+      const res = await fetch("/api/health", { cache: "no-store" });
       if (!res.ok) throw new Error(String(res.status));
       const h = await res.json();
       statusModels.replaceChildren(...statusRows(h.providers, PROVIDER_LABEL));

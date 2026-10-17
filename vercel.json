@@ -2,21 +2,18 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
   "installCommand": "npm install --include=dev",
-  "buildCommand": "npm run build",
+  "buildCommand": "npm run vercel-build",
   "outputDirectory": "web",
   "cleanUrls": true,
   "regions": ["sin1"],
   "functions": {
     "api/[[...path]].js": {
-      "maxDuration": 300,
-      "includeFiles": "dist/**"
+      "maxDuration": 60,
+      "includeFiles": "api/_dist/**"
     }
   },
   "rewrites": [
-    { "source": "/chat/:id", "destination": "/" },
-    { "source": "/chat", "destination": "/api/chat" },
-    { "source": "/health", "destination": "/api/health" },
-    { "source": "/models", "destination": "/api/models" }
+    { "source": "/chat/:id", "destination": "/" }
   ],
   "headers": [
     {

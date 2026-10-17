@@ -1,4 +1,4 @@
-import { Hono } from "hono";
+import { Hono, type Context } from "hono";
 import { TIERS } from "../config/routing.js";
 import type { Container } from "../container.js";
 
@@ -9,16 +9,16 @@ import type { Container } from "../container.js";
 export function systemRoutes({ providers, tools, routing }: Container): Hono {
   const app = new Hono();
 
-  app.get("/health", (c) =>
+  const health = (c: Context) =>
     c.json({
       status: "ok",
       providers: Object.fromEntries(providers.list().map((p) => [p.id, p.isConfigured()])),
       tools: Object.fromEntries(tools.list().map((t) => [t.name, t.isConfigured()])),
-    }),
-  );
+    });
+  app.get("/health", health);
+  app.get("/api/health", health);
 
-  /** Options a UI can offer in its model picker (configured providers only; no routing internals). */
-  app.get("/models", (c) => {
+  const models = (c: Context) => {
     const configured = providers.list().filter((p) => p.isConfigured());
     return c.json({
       choices: [
@@ -31,7 +31,9 @@ export function systemRoutes({ providers, tools, routing }: Container): Hono {
         ),
       ],
     });
-  });
+  };
+  app.get("/models", models);
+  app.get("/api/models", models);
 
   return app;
 }
