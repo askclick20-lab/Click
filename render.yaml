@@ -1,0 +1,71 @@
+# Render Blueprint for Click (https://render.com/docs/blueprint-spec)
+# One Node web service: the API (/chat, /health) and the web app (/) from the same origin.
+# API keys are NOT in this file: Render asks for them when the Blueprint is created (sync: false)
+# and keeps them as encrypted environment variables. Never commit .env.
+services:
+  - type: web
+    name: click
+    runtime: node
+    region: singapore
+    plan: free
+    # TypeScript lives in devDependencies; include them at build time.
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "24"
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: TRUST_PROXY
+        value: "true"
+      - key: CLICK_LOG_LEVEL
+        value: info
+      - key: RATE_LIMIT_MAX_REQUESTS
+        value: "20"
+      - key: RATE_LIMIT_HEAVY_MAX_REQUESTS
+        value: "5"
+      - key: OPENROUTER_DAILY_REQUEST_LIMIT
+        value: "200"
+      - key: ONCHAIN_ENABLED
+        value: "true"
+      - key: MARKET_ENABLED
+        value: "true"
+      - key: GECKOTERMINAL_NETWORK
+        value: solana
+      - key: GECKOTERMINAL_RATE_LIMIT_PER_MINUTE
+        value: "25"
+      - key: SOLANA_NETWORK
+        value: mainnet-beta
+      # Secrets: entered in the Render dashboard, never stored in the repo.
+      - key: CLICK_API_KEY
+        sync: false
+      - key: CLICK_CORS_ORIGIN
+        sync: false
+      - key: SOLANA_RPC_URL
+        sync: false
+      - key: SOLANA_RPC_FALLBACK_URLS
+        sync: false
+      - key: HELIUS_API_KEY
+        sync: false
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_API_KEY_BACKUP
+        sync: false
+      - key: TAVILY_API_KEY
+        sync: false
+      - key: EXA_API_KEY
+        sync: false
+      - key: JINA_API_KEY
+        sync: false
+      - key: FIRECRAWL_API_KEY
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false

@@ -1,0 +1,712 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Click</title>
+  <meta name="description" content="Click — Ask anything. Intelligence from everywhere: the web, GitHub, news, Solana and live markets, answered with sources." />
+  <meta name="theme-color" content="#000000" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Click" />
+  <meta property="og:title" content="Click — Ask anything" />
+  <meta property="og:description" content="Ask anything. Intelligence from everywhere: the web, GitHub, news, Solana and live markets, answered with sources." />
+  <meta property="og:url" content="https://askClick.com/" />
+  <meta property="og:image" content="https://askClick.com/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://askClick.com/og.png" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23000'/%3E%3Cg transform='translate(7 7) scale(0.78125)'%3E%3Cpath d='M8 6L34 30L20 34Z' fill='%235CE4FF'/%3E%3Cpath d='M20 34L34 30L58 14L40 46Z' fill='%2338D6F5'/%3E%3Cpath d='M40 46L58 14L50 44Z' fill='%230EA5C9'/%3E%3Cpath d='M20 34L40 46L12 58Z' fill='%230891B2'/%3E%3C/g%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <svg class="sr-only" aria-hidden="true" focusable="false"><symbol id="Click-mark" viewBox="0 0 64 64"><path d="M8 6L34 30L20 34Z" fill="#5CE4FF"/><path d="M20 34L34 30L58 14L40 46Z" fill="#38D6F5"/><path d="M40 46L58 14L50 44Z" fill="#0EA5C9"/><path d="M20 34L40 46L12 58Z" fill="#0891B2"/></symbol></svg>
+  <!-- Announcement bar -->
+  <div class="announce" id="announce" role="region" aria-label="Announcement">
+    <p class="announce-title">Click LIVE NOW</p>
+    <p class="announce-meta mono"><span class="label">CHAIN:</span> <span class="value">Solana · mainnet-beta</span></p>
+    <p class="announce-cta">ASK ANYTHING ON <button class="pill" type="button" data-open-chat>Click</button></p>
+    <button class="announce-close" type="button" aria-label="Dismiss announcement" data-dismiss>&times;</button>
+  </div>
+
+  <!-- Navigation -->
+  <header class="nav">
+    <a class="logo" href="/" aria-label="Click home"><svg class="logo-mark" aria-hidden="true"><use href="#Click-mark" /></svg><span class="logo-word">Click</span></a>
+    <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu" data-menu>
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- Menu: page navigation and everything except Ask -->
+  <div class="menu" id="menu" hidden>
+    <nav class="menu-inner" aria-label="Main">
+      <div class="menu-jump">
+        <p class="menu-label">ON THIS PAGE</p>
+        <ul class="jump-list">
+          <li><a href="#capabilities">What it does</a></li>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#chain">Solana</a></li>
+          <li><a href="#pulse">Live pulse</a></li>
+          <li><a href="#lookup">Address lookup</a></li>
+          <li><a href="#portfolio">Portfolio &amp; watchlist</a></li>
+          <li><a href="#radar">Token radar</a></li>
+          <li><a href="#launches">New launches</a></li>
+          <li><a href="#compare">Token compare</a></li>
+          <li><a href="#glossary">Glossary</a></li>
+          <li><a href="#trust">Trust &amp; status</a></li>
+          <li><a href="#roadmap">Roadmap</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <details class="menu-item" id="menu-sources">
+        <summary>Sources</summary>
+        <ul class="menu-list">
+          <li><span class="tag mono">web.search</span><div><b>Live Web</b><p>Real-time search and full-page reading, every claim tied to its URL.</p></div></li>
+          <li><span class="tag mono">github.repo</span><div><b>GitHub</b><p>Repositories, READMEs, code and recent commits.</p></div></li>
+          <li><span class="tag mono">news.feed</span><div><b>News</b><p>Fresh stories from curated feeds; stale news stays out.</p></div></li>
+          <li><span class="tag mono">chain.data</span><div><b>Solana</b><p>Slots, transactions, tokens and accounts on mainnet-beta.</p></div></li>
+          <li><span class="tag mono">market.data</span><div><b>Markets</b><p>On-chain prices, liquidity and volume for Solana pools.</p></div></li>
+          <li><span class="tag mono">models</span><div><b>Many Models</b><p>Right model per question, automatic fallback when one is down.</p></div></li>
+        </ul>
+      </details>
+      <a class="menu-link" href="/docs">Docs <span aria-hidden="true">→</span></a>
+      <a class="menu-link" href="/health" target="_blank" rel="noopener">API status <span aria-hidden="true">↗</span></a>
+      <a class="menu-link social-link" data-social="x" href="#" target="_blank" rel="noopener" hidden>X <span aria-hidden="true">↗</span></a>
+      <a class="menu-link social-link" data-social="telegram" href="#" target="_blank" rel="noopener" hidden>Telegram <span aria-hidden="true">↗</span></a>
+      <a class="menu-link social-link" data-social="github" href="#" target="_blank" rel="noopener" hidden>GitHub <span aria-hidden="true">↗</span></a>
+    </nav>
+  </div>
+
+  <!-- Wide screens only, in the side margins while reading the sections: where you are on the page (left)
+       and quick actions with the live top pool (right). Hidden on smaller screens. -->
+  <nav class="page-index" id="page-index" aria-label="Sections">
+    <p class="index-label" aria-hidden="true">ON THIS PAGE</p>
+    <ol>
+      <li><a href="#capabilities"><span class="mono">01</span>What it does</a></li>
+      <li><a href="#how"><span class="mono">02</span>How it works</a></li>
+      <li><a href="#for"><span class="mono">03</span>Built for</a></li>
+      <li><a href="#chain"><span class="mono">04</span>Solana</a></li>
+      <li><a href="#pulse"><span class="mono">05</span>Live pulse</a></li>
+      <li><a href="#lookup"><span class="mono">06</span>Address lookup</a></li>
+      <li><a href="#portfolio"><span class="mono">07</span>Portfolio</a></li>
+      <li><a href="#radar"><span class="mono">08</span>Token radar</a></li>
+      <li><a href="#launches"><span class="mono">09</span>New launches</a></li>
+      <li><a href="#compare"><span class="mono">10</span>Compare</a></li>
+      <li><a href="#glossary"><span class="mono">11</span>Glossary</a></li>
+      <li><a href="#trust"><span class="mono">12</span>Trust</a></li>
+      <li><a href="#status"><span class="mono">13</span>Status</a></li>
+      <li><a href="#roadmap"><span class="mono">14</span>Roadmap</a></li>
+      <li><a href="#faq"><span class="mono">15</span>FAQ</a></li>
+    </ol>
+  </nav>
+  <aside class="quick" id="quick" aria-label="Quick actions">
+    <div class="quick-live" id="quick-live" hidden>
+      <p class="quick-label"><span class="live-dot" aria-hidden="true"></span>TOP POOL</p>
+      <button class="quick-pool" id="quick-pool" type="button"></button>
+    </div>
+    <button class="btn btn-primary quick-ask" type="button" data-open-chat>Ask Click</button>
+    <button class="quick-top" id="quick-top" type="button">↑ Back to top</button>
+  </aside>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <canvas class="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero-inner">
+        <h1>
+          <span class="accent">Click</span>
+          <span>INTELLIGENCE</span>
+          <span>FROM EVERYWHERE</span>
+        </h1>
+        <p class="lede">
+          Ask anything. An <strong>AI research engine</strong> for any question, and a <strong>live window into Solana</strong>.
+          Every answer is sourced.
+        </p>
+        <form class="hero-ask" id="hero-ask" autocomplete="off" data-ask>
+          <label class="sr-only" for="hero-ask-input">Ask Click anything</label>
+          <input id="hero-ask-input" type="text" maxlength="4000" placeholder="Ask anything — e.g. What's happening on Solana?" />
+          <button class="btn btn-primary" type="submit" aria-label="Ask"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></button>
+        </form>
+        <div class="cta">
+          <button class="btn btn-primary" type="button" data-open-chat>Ask Click <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></button>
+          <a class="btn btn-ghost" href="#chain">Solana <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6" /></svg></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Example questions, scrolling slowly; click one to fill the chat (never sent automatically) -->
+    <section class="marquee" aria-label="Example questions">
+      <div class="marquee-track">
+        <button type="button" class="marquee-item" data-open-chat="What's happening on Solana right now?">What's happening on Solana right now?</button>
+        <button type="button" class="marquee-item" data-open-chat="What is the price and liquidity of USDG on Solana?">Price &amp; liquidity of USDG</button>
+        <button type="button" class="marquee-item" data-open-chat="Analyze https://github.com/honojs/hono">Analyze honojs/hono on GitHub</button>
+        <button type="button" class="marquee-item" data-open-chat="What are the latest crypto news?">Latest crypto news</button>
+        <button type="button" class="marquee-item" data-open-chat="Which Solana pools have the most liquidity right now?">Top pools by liquidity</button>
+        <button type="button" class="marquee-item" data-open-chat="Summarize https://nodejs.org/en/about">Summarize a web page</button>
+        <button type="button" class="marquee-item" data-open-chat="Research the current state of tokenized stocks: who offers them and how they work.">Research tokenized stocks</button>
+        <button type="button" class="marquee-item" data-open-chat="Explain what a blockchain is in two sentences.">Explain a blockchain simply</button>
+      </div>
+    </section>
+
+    <!-- Continue: recent conversations from this browser (shown only when there are some) -->
+    <section class="section" id="continue" aria-labelledby="continue-title" hidden>
+      <div class="section-head">
+        <p class="eyebrow">CONTINUE</p>
+        <h2 id="continue-title">Pick up where you left off</h2>
+      </div>
+      <div class="recent-grid" id="recent-grid"></div>
+    </section>
+
+    <!-- System facts (true by construction: counts come from this build's configuration and design) -->
+    <section class="facts" aria-label="Click at a glance">
+      <div class="fact reveal"><span class="fact-n">3</span><span class="fact-l">AI providers with automatic fallback</span></div>
+      <div class="fact reveal"><span class="fact-n">5</span><span class="fact-l">kinds of live data: web, GitHub, news, chain, markets</span></div>
+      <div class="fact reveal"><span class="fact-n mono">SOL</span><span class="fact-l">Solana cluster, genesis-checked</span></div>
+      <div class="fact reveal"><span class="fact-n">0</span><span class="fact-l">chats stored on our servers</span></div>
+    </section>
+
+    <!-- Capabilities: each card opens the chat with an example question (never sent automatically) -->
+    <section class="section" id="capabilities" aria-labelledby="cap-title">
+      <div class="section-head status-head">
+        <div>
+          <p class="eyebrow">WHAT Click CAN DO</p>
+          <h2 id="cap-title">One question. Every source.</h2>
+          <p class="section-lede">Pick a starting point — Click fills in the question, you decide when to send it.</p>
+        </div>
+        <!-- Real readiness from /health (filled in by the page); links to the full status -->
+        <a class="ready-chip" id="ready-chip" href="#status" hidden><span class="status-dot on" aria-hidden="true"></span><span id="ready-text"></span><span aria-hidden="true">→</span></a>
+      </div>
+      <div class="cap-grid">
+        <article class="cap">
+          <span class="cap-tag mono">web.search</span>
+          <h3>Live web</h3>
+          <p>Searches and reads current pages, with every claim tied to its URL.</p>
+          <button class="cap-try" type="button" data-open-chat="Search the web: what are the most important AI developments this week?">Try: AI developments this week <span aria-hidden="true">→</span></button>
+        </article>
+        <article class="cap">
+          <span class="cap-tag mono">github.repo</span>
+          <h3>GitHub</h3>
+          <p>Reads repositories, READMEs, code, commits and contributors.</p>
+          <button class="cap-try" type="button" data-open-chat="Analyze https://github.com/honojs/hono">Try: analyze honojs/hono <span aria-hidden="true">→</span></button>
+        </article>
+        <article class="cap">
+          <span class="cap-tag mono">news.feed</span>
+          <h3>News</h3>
+          <p>Fresh stories from curated feeds — stale news stays out.</p>
+          <button class="cap-try" type="button" data-open-chat="What are the latest crypto news?">Try: latest crypto news <span aria-hidden="true">→</span></button>
+        </article>
+        <article class="cap">
+          <span class="cap-tag mono">chain.data</span>
+          <h3>Solana</h3>
+          <p>Slots, transactions, tokens and accounts on Solana mainnet-beta.</p>
+          <button class="cap-try" type="button" data-open-chat="What's happening on Solana right now?">Try: what's happening now <span aria-hidden="true">→</span></button>
+        </article>
+        <article class="cap">
+          <span class="cap-tag mono">market.data</span>
+          <h3>Markets</h3>
+          <p>On-chain prices, liquidity and volume for Solana pools.</p>
+          <button class="cap-try" type="button" data-open-chat="What is the price and liquidity of USDG on Solana?">Try: USDG price &amp; liquidity <span aria-hidden="true">→</span></button>
+        </article>
+        <article class="cap">
+          <span class="cap-tag mono">research</span>
+          <h3>Deep research</h3>
+          <p>Combines several sources into one answer, facts separated from analysis.</p>
+          <button class="cap-try" type="button" data-open-chat="Research the current state of tokenized stocks: who offers them and how they work.">Try: tokenized stocks <span aria-hidden="true">→</span></button>
+        </article>
+      </div>
+    </section>
+
+    <!-- How it works: the three steps beside the layout of a real answer (illustrative example, clearly labelled) -->
+    <section class="section tint" id="how" aria-labelledby="how-title">
+      <div class="section-head">
+        <p class="eyebrow">HOW IT WORKS</p>
+        <h2 id="how-title">Ask once. Click does the legwork.</h2>
+        <p class="section-lede">Every answer shows how it was made: what Click understood, the sources it used, the live data it found, and numbered citations you can click.</p>
+      </div>
+      <div class="how-layout">
+        <div class="how-left">
+          <ol class="how-steps">
+            <li class="reveal"><span class="how-n mono">01</span><div><h3>Understand</h3><p>Detects what you're really asking — research, code, news, chain activity, markets, or all of it — and remembers what you said earlier in the chat.</p></div></li>
+            <li class="reveal"><span class="how-n mono">02</span><div><h3>Gather</h3><p>Calls only the sources that matter, in parallel, within strict time and cost limits. Unsafe links are never opened.</p></div></li>
+            <li class="reveal"><span class="how-n mono">03</span><div><h3>Answer</h3><p>Writes one clear answer with numbered, clickable sources — and says plainly when live data couldn't be retrieved.</p></div></li>
+          </ol>
+          <!-- Try it right here: Enter sends the question (the visitor's explicit action), like the hero box -->
+          <form class="try-ask" autocomplete="off" data-ask>
+            <label class="try-label mono" for="try-ask-input">TRY IT — SEE ALL THREE STEPS LIVE</label>
+            <div class="try-row">
+              <input id="try-ask-input" type="text" maxlength="4000" placeholder="e.g. What is the price of USDG?" />
+              <button class="btn btn-primary" type="submit" aria-label="Ask"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></button>
+            </div>
+          </form>
+        </div>
+        <div class="how-demo">
+          <div class="preview reveal">
+            <div class="preview-bar"><span></span><span></span><span></span><em>Example of the answer layout</em></div>
+            <div class="preview-body">
+              <div class="pv-user">What is the price of USDG on Solana?</div>
+              <div class="pv-bot">
+                <div class="pv-chips"><span class="pv-chip on">MARKET</span><span class="pv-chip">Solana</span><span class="pv-chip">ON-CHAIN MARKET</span></div>
+                <ol class="pv-steps">
+                  <li>Understood: Solana, Market</li>
+                  <li>Checking Solana…</li>
+                  <li>Analyzing market data…</li>
+                  <li>Writing the answer</li>
+                </ol>
+                <div class="pv-card">
+                  <div class="pv-card-head"><b>USDG / WETH</b><span class="mono">MARKET</span></div>
+                  <div class="pv-stats"><div><i>PRICE</i><b class="mono">$1.00</b></div><div><i>24H</i><b class="mono up">+0.01%</b></div><div><i>LIQUIDITY</i><b class="mono">$24.4M</b></div><div><i>VOLUME 24H</i><b class="mono">$160M</b></div></div>
+                </div>
+                <p class="pv-answer">USDG trades at about <b>$1.00</b> in its main pool <span class="pv-cite">1</span>. Liquidity and 24-hour volume are shown above, straight from the pool data <span class="pv-cite">1</span>.</p>
+                <div class="pv-sources"><span class="pv-cite">1</span> Market: tokens named USDG <em>· api.geckoterminal.com · direct</em></div>
+              </div>
+            </div>
+          </div>
+          <p class="preview-note">Illustrative layout — figures in a real answer are fetched live when you ask.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Who it's for: every prompt is clickable -->
+    <section class="section" id="for" aria-labelledby="for-title">
+      <div class="section-head">
+        <p class="eyebrow">BUILT FOR</p>
+        <h2 id="for-title">Whatever you're working on</h2>
+      </div>
+      <div class="for-grid">
+        <article class="for reveal">
+          <h3>Traders</h3>
+          <p>Prices, liquidity and pool activity on Solana — with the numbers sourced.</p>
+          <div class="for-prompts">
+            <button type="button" data-open-chat="Which Solana pools have the most liquidity right now?">Top pools by liquidity</button>
+            <button type="button" data-open-chat="What is the price and liquidity of USDG on Solana?">USDG price &amp; liquidity</button>
+          </div>
+        </article>
+        <article class="for reveal">
+          <h3>Builders</h3>
+          <p>Understand a repository fast: what it does, how it's structured, who maintains it.</p>
+          <div class="for-prompts">
+            <button type="button" data-open-chat="Analyze https://github.com/honojs/hono">Analyze a repository</button>
+            <button type="button" data-open-chat="What changed recently in https://github.com/honojs/hono?">Recent commits</button>
+          </div>
+        </article>
+        <article class="for reveal">
+          <h3>Researchers</h3>
+          <p>Several sources combined into one answer, with facts and analysis kept apart.</p>
+          <div class="for-prompts">
+            <button type="button" data-open-chat="Research the current state of tokenized stocks: who offers them and how they work.">Tokenized stocks</button>
+            <button type="button" data-open-chat="Summarize https://nodejs.org/en/about">Summarize a page</button>
+          </div>
+        </article>
+        <article class="for reveal">
+          <h3>The curious</h3>
+          <p>Plain-language answers to anything — and follow-ups that remember the conversation.</p>
+          <div class="for-prompts">
+            <button type="button" data-open-chat="Explain what a blockchain is in two sentences.">Explain a blockchain</button>
+            <button type="button" data-open-chat="What are the latest crypto news?">Today's crypto news</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Solana chapter: what Click reads, the live pulse, and the vocabulary -->
+    <section class="section tint spotlight" id="chain" aria-labelledby="chain-title">
+      <div class="spot-copy">
+        <p class="eyebrow">Solana</p>
+        <h2 id="chain-title">A live window into Solana</h2>
+        <p class="section-lede">Click reads Solana directly — the cluster genesis hash is verified before any data is used — and pairs it with live market data for its pools.</p>
+        <div class="spot-actions">
+          <button class="btn btn-primary" type="button" data-open-chat="What's happening on Solana right now?">Explore the chain <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></button>
+          <button class="btn btn-ghost" type="button" data-open-chat="Which Solana pools have the most liquidity right now?">Top pools</button>
+        </div>
+      </div>
+      <ul class="spot-list">
+        <li class="reveal"><span class="mono">01</span><div><b>Blocks &amp; activity</b><p>Latest blocks and token transfers across recent blocks.</p></div></li>
+        <li class="reveal"><span class="mono">02</span><div><b>Addresses &amp; transactions</b><p>Paste an address or a transaction hash and ask what it did.</p></div></li>
+        <li class="reveal"><span class="mono">03</span><div><b>Tokens &amp; contracts</b><p>Names, symbols and contract details — symbols aren't unique, so Click shows the address.</p></div></li>
+        <li class="reveal"><span class="mono">04</span><div><b>Pools &amp; prices</b><p>Price, liquidity and volume per pool via GeckoTerminal.</p></div></li>
+      </ul>
+    </section>
+
+    <!-- Live pulse: real data from /api/pulse (cached on the server; no AI model involved) -->
+    <section class="section tint cont" id="pulse" aria-labelledby="pulse-title">
+      <div class="section-head status-head">
+        <div>
+          <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span>LIVE PULSE</p>
+          <h2 id="pulse-title">Right now on Solana</h2>
+          <p class="section-lede">Real data, refreshed every minute. Click anything to ask Click about it.</p>
+        </div>
+        <span class="pulse-updated mono" id="pulse-updated" aria-live="polite"></span>
+      </div>
+      <div class="pulse-grid">
+        <article class="pulse-card pulse-chain" id="pulse-chain">
+          <h3>Chain pulse <span class="pulse-sub">latest slot</span></h3>
+          <div class="pulse-body"><p class="pulse-loading">Loading…</p></div>
+        </article>
+        <article class="pulse-card" id="pulse-market">
+          <h3>Top pools <span class="pulse-sub">by liquidity · min $100k</span></h3>
+          <div class="pulse-body"><p class="pulse-loading">Loading…</p></div>
+        </article>
+        <article class="pulse-card" id="pulse-news">
+          <h3>Latest headlines <span class="pulse-sub">crypto · AI · tech</span></h3>
+          <div class="pulse-body"><p class="pulse-loading">Loading…</p></div>
+        </article>
+      </div>
+      <p class="preview-note">Market data via GeckoTerminal, chain data from the Solana RPC, headlines from curated RSS feeds. Not financial advice.</p>
+    </section>
+
+    <!-- Address lookup: real data from /api/address/:address (chain RPC + explorer; no AI model involved) -->
+    <section class="section tint cont" id="lookup" aria-labelledby="lookup-title">
+      <div class="section-head">
+        <p class="eyebrow">ADDRESS LOOKUP <span class="new-badge">NEW</span></p>
+        <h2 id="lookup-title">Look up any address or transaction</h2>
+        <p class="section-lede">Paste a wallet, contract or token address — or a transaction hash. Click reads it straight from Solana — no AI, no guesses. Every result has its own link to share.</p>
+      </div>
+      <form class="lookup-form" id="lookup-form" autocomplete="off" novalidate>
+        <label class="sr-only" for="lookup-input">Solana address or transaction hash</label>
+        <input class="lookup-input mono" id="lookup-input" name="address" type="text" inputmode="text" spellcheck="false" maxlength="88" placeholder="Solana address or signature" />
+        <button class="btn btn-primary" type="submit">Look up</button>
+      </form>
+      <p class="lookup-try">Try: <button type="button" class="chip-btn mono" data-lookup="So11111111111111111111111111111111111111112">wSOL mint</button></p>
+      <div class="lookup-result" id="lookup-result" aria-live="polite"></div>
+      <p class="preview-note">Balances and transaction facts come from Solana RPC and market providers. Explorer links open on Solscan. Not financial advice.</p>
+    </section>
+
+    <!-- Portfolio + watchlist: /api/portfolio/:address and /api/prices (chain + explorer + GeckoTerminal; no AI) -->
+    <section class="section tint cont" id="portfolio" aria-labelledby="portfolio-title">
+      <div class="section-head">
+        <p class="eyebrow">PORTFOLIO &amp; WATCHLIST <span class="new-badge">NEW</span></p>
+        <h2 id="portfolio-title">What is a wallet worth?</h2>
+        <p class="section-lede">Paste any Solana wallet: every token it holds, priced live in USD, with the 24h change. Star tokens and wallets to keep them on your watchlist.</p>
+      </div>
+      <div class="pf-grid">
+        <div class="pf-main">
+          <form class="lookup-form" id="pf-form" autocomplete="off" novalidate>
+            <label class="sr-only" for="pf-input">Wallet address</label>
+            <input class="lookup-input mono" id="pf-input" type="text" spellcheck="false" maxlength="44" placeholder="Solana wallet address" />
+            <button class="btn btn-primary" type="submit">Check value</button>
+          </form>
+          <div class="pf-result" id="pf-result" aria-live="polite"></div>
+        </div>
+        <aside class="wl" id="watchlist" aria-label="Your watchlist">
+          <div class="wl-head"><h3>☆ Your watchlist</h3><span class="lk-dim mono" id="wl-updated"></span></div>
+          <div id="wl-body"></div>
+          <p class="lk-foot">Saved in this browser only. No account, nothing sent to us but the addresses to price.</p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Token radar: /api/radar (GeckoTerminal; no AI) -->
+    <section class="section tint cont" id="radar" aria-labelledby="radar-title">
+      <div class="section-head status-head">
+        <div>
+          <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span>TOKEN RADAR <span class="new-badge">NEW</span></p>
+          <h2 id="radar-title">What's moving on Solana</h2>
+          <p class="section-lede">Trending and brand-new pools, refreshed every minute. Click any row for a full safety check: pools, liquidity, holders.</p>
+        </div>
+        <div class="rd-tabs" role="tablist" aria-label="Radar">
+          <button type="button" role="tab" aria-selected="true" data-radar="trending">Trending</button>
+          <button type="button" role="tab" aria-selected="false" data-radar="fresh">New pools</button>
+        </div>
+      </div>
+      <div class="rd-head mono" aria-hidden="true"><span>Pool</span><span>Liquidity</span><span>Vol 24h</span><span>24h</span><span>Created</span><span></span></div>
+      <div class="rd-list" id="radar-list" aria-live="polite"></div>
+      <p class="preview-note">Pool data via GeckoTerminal. Pools with a fee of 10% or more are hidden. New tokens are risky — this is data, not advice.</p>
+    </section>
+
+    <!-- New launch feed: /api/launches (GeckoTerminal + explorer; no AI) -->
+    <section class="section tint cont" id="launches" aria-labelledby="launches-title">
+      <div class="section-head status-head">
+        <div>
+          <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span>NEW LAUNCH FEED <span class="new-badge">NEW</span></p>
+          <h2 id="launches-title">Every new token, checked on arrival</h2>
+          <p class="section-lede">The newest pools on Solana, each with a quick safety read: liquidity, fees, verified code, holders, first trades. Refreshes every minute.</p>
+        </div>
+        <span class="pulse-updated mono" id="launches-updated" aria-live="polite"></span>
+      </div>
+      <div class="lf-grid" id="launches-list" aria-live="polite"></div>
+      <p class="preview-note">Quick checks from GeckoTerminal and the official explorer. They are facts, not a rating. New tokens are high risk — not financial advice.</p>
+    </section>
+
+    <!-- Token compare: two /api/token reads side by side (no AI) -->
+    <section class="section tint cont" id="compare" aria-labelledby="compare-title">
+      <div class="section-head">
+        <p class="eyebrow">TOKEN COMPARE <span class="new-badge">NEW</span></p>
+        <h2 id="compare-title">Two tokens, side by side</h2>
+        <p class="section-lede">Paste two token addresses and see liquidity, holders, market data and safety signals next to each other. Every comparison has its own link.</p>
+      </div>
+      <form class="cmp-form" id="cmp-form" autocomplete="off" novalidate>
+        <label class="sr-only" for="cmp-a">First token address</label>
+        <input class="lookup-input mono" id="cmp-a" type="text" spellcheck="false" maxlength="44" placeholder="Mint A" />
+        <span class="cmp-vs" aria-hidden="true">vs</span>
+        <label class="sr-only" for="cmp-b">Second token address</label>
+        <input class="lookup-input mono" id="cmp-b" type="text" spellcheck="false" maxlength="44" placeholder="Mint B" />
+        <button class="btn btn-primary" type="submit">Compare</button>
+      </form>
+      <p class="lookup-try">Try: <button type="button" class="chip-btn mono" data-compare="So11111111111111111111111111111111111111112,EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v">wSOL vs USDC</button></p>
+      <div class="cmp-result" id="cmp-result" aria-live="polite"></div>
+    </section>
+
+    <!-- Glossary: every term can be explained by Click in the chat -->
+    <section class="section tint cont" id="glossary" aria-labelledby="glossary-title">
+      <div class="section-head status-head">
+        <div>
+          <p class="eyebrow">GLOSSARY</p>
+          <h2 id="glossary-title">Solana &amp; DeFi, in plain words</h2>
+          <p class="section-lede">Quick definitions — tap "Ask" for a fuller explanation with live examples.</p>
+        </div>
+        <div class="term-search">
+          <label class="sr-only" for="term-search-input">Look up a term</label>
+          <input id="term-search-input" type="search" maxlength="60" placeholder="Look up a term…" autocomplete="off" />
+        </div>
+      </div>
+      <dl class="glossary">
+        <div class="term reveal"><dt>SOL</dt><dd>Solana's native token, used for fees and staking.</dd><button type="button" data-open-chat="Explain SOL and what it is used for.">Ask</button></div>
+        <div class="term reveal"><dt>Lamport</dt><dd>The smallest unit of SOL (1 SOL = 1,000,000,000 lamports).</dd><button type="button" data-open-chat="What is a lamport on Solana?">Ask</button></div>
+        <div class="term reveal"><dt>Slot</dt><dd>A short time window where a leader can produce a block.</dd><button type="button" data-open-chat="Explain slots on Solana simply.">Ask</button></div>
+        <div class="term reveal"><dt>Epoch</dt><dd>A batch of slots used for validator rotation and staking updates.</dd><button type="button" data-open-chat="What is an epoch on Solana?">Ask</button></div>
+        <div class="term reveal"><dt>Validator</dt><dd>A node that votes on and helps confirm blocks.</dd><button type="button" data-open-chat="What does a Solana validator do?">Ask</button></div>
+        <div class="term reveal"><dt>SPL token</dt><dd>A fungible token that follows Solana's token standard.</dd><button type="button" data-open-chat="What is an SPL token?">Ask</button></div>
+        <div class="term reveal"><dt>Mint</dt><dd>The token's on-chain address and metadata account.</dd><button type="button" data-open-chat="What is a token mint on Solana?">Ask</button></div>
+        <div class="term reveal"><dt>Token-2022</dt><dd>An extended token program with optional features like transfer fees.</dd><button type="button" data-open-chat="Explain Token-2022 and why it matters.">Ask</button></div>
+        <div class="term reveal"><dt>Mint authority</dt><dd>The authority that can mint additional supply if still active.</dd><button type="button" data-open-chat="What does mint authority mean?">Ask</button></div>
+        <div class="term reveal"><dt>Freeze authority</dt><dd>The authority that can freeze token accounts if enabled.</dd><button type="button" data-open-chat="What does freeze authority mean on Solana tokens?">Ask</button></div>
+        <div class="term reveal"><dt>Liquidity pool</dt><dd>A pair of tokens used by a DEX to enable swaps.</dd><button type="button" data-open-chat="Explain liquidity pools on Solana DEXs.">Ask</button></div>
+        <div class="term reveal"><dt>Bonding curve</dt><dd>A pricing function that changes token price with supply and demand.</dd><button type="button" data-open-chat="What is a bonding curve in token launches?">Ask</button></div>
+        <div class="term reveal"><dt>DEX</dt><dd>A decentralized exchange where swaps are executed by smart programs.</dd><button type="button" data-open-chat="What is a DEX on Solana?">Ask</button></div>
+        <div class="term reveal"><dt>FDV</dt><dd>Fully diluted valuation: token price multiplied by total supply.</dd><button type="button" data-open-chat="Explain FDV and how to use it.">Ask</button></div>
+        <div class="term reveal"><dt>Priority fee</dt><dd>An extra fee to improve transaction inclusion speed.</dd><button type="button" data-open-chat="What is a priority fee on Solana?">Ask</button></div>
+        <div class="term reveal"><dt>Compute units</dt><dd>The execution budget consumed by transaction instructions.</dd><button type="button" data-open-chat="What are compute units in a Solana transaction?">Ask</button></div>
+        <div class="term reveal"><dt>Stablecoin</dt><dd>A token targeting a stable value such as 1 USD.</dd><button type="button" data-open-chat="How do stablecoins work on Solana?">Ask</button></div>
+        <div class="term reveal"><dt>Token account</dt><dd>An account that stores a wallet's balance for one mint.</dd><button type="button" data-open-chat="What is a token account on Solana?">Ask</button></div>
+      </dl>
+      <!-- Shown when the lookup matches nothing above: Click can still explain it -->
+      <div class="term-miss" id="term-miss" hidden>
+        <p>Not in this list yet.</p>
+        <button class="btn btn-ghost" type="button" id="term-miss-ask"></button>
+      </div>
+    </section>
+
+    <!-- Trust & safety -->
+    <section class="section" id="trust" aria-labelledby="trust-title">
+      <div class="section-head">
+        <p class="eyebrow">TRUST &amp; SAFETY</p>
+        <h2 id="trust-title">Built to be checked, not just trusted</h2>
+      </div>
+      <div class="trust-grid">
+        <div class="trust reveal">
+          <span class="trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" /><path d="M14 3v5h5" /><path d="M9 14l2 2 4-4" /></svg></span>
+          <h3>Sourced or it's not said</h3><p>Live facts come only from retrieved sources. Citations to sources that don't exist are removed.</p>
+        </div>
+        <div class="trust reveal">
+          <span class="trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="3.5" /><path d="M10 13l10-10" /><path d="M16 7l3 3" /><path d="M13.5 9.5l2 2" /></svg></span>
+          <h3>Keys stay on the server</h3><p>API keys never reach your browser, logs or answers.</p>
+        </div>
+        <div class="trust reveal">
+          <span class="trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z" /><path d="M9.5 9.5l5 5M14.5 9.5l-5 5" /></svg></span>
+          <h3>Unsafe links blocked</h3><p>Local, private-network and malicious links are refused before anything is fetched.</p>
+        </div>
+        <div class="trust reveal">
+          <span class="trust-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2" /><path d="M2 20h20" /></svg></span>
+          <h3>Your history, your device</h3><p>Chats are kept in this browser only. Delete one and it's gone.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Live system status (from /health: booleans only) -->
+    <section class="section cont" id="status" aria-labelledby="status-title">
+      <div class="section-head status-head">
+        <div>
+          <p class="eyebrow">LIVE STATUS</p>
+          <h2 id="status-title">What Click can use right now</h2>
+        </div>
+        <button class="btn btn-ghost status-refresh" type="button" id="status-refresh">Refresh</button>
+      </div>
+      <div class="status-group">
+        <h3 class="status-label">AI models</h3>
+        <ul class="status-list" id="status-models"><li class="status-loading">Checking…</li></ul>
+      </div>
+      <div class="status-group">
+        <h3 class="status-label">Data sources</h3>
+        <ul class="status-list" id="status-tools"><li class="status-loading">Checking…</li></ul>
+      </div>
+      <p class="status-note" id="status-note" aria-live="polite"></p>
+    </section>
+
+    <!-- Roadmap: what exists today vs what is planned (clearly labelled) -->
+    <section class="section tint" id="roadmap" aria-labelledby="roadmap-title">
+      <div class="section-head">
+        <p class="eyebrow">ROADMAP</p>
+        <h2 id="roadmap-title">What's new, and what's next</h2>
+        <p class="road-updated mono">Last updated: October 2026</p>
+      </div>
+      <div class="roadmap">
+        <div class="road-col">
+          <h3><span class="road-badge live">Live now</span></h3>
+          <ul>
+            <li class="reveal"><b>Multi-source answers</b><span>Web, GitHub, news, Solana and markets in one answer.</span></li>
+            <li class="reveal"><b>Clickable citations</b><span>Every live fact links to the source it came from.</span></li>
+            <li class="reveal"><b>Conversation memory</b><span>Follow-ups like "what about its liquidity?" just work.</span></li>
+            <li class="reveal"><b>Automatic model fallback</b><span>OpenRouter, then Gemini, then Groq — each tried once.</span></li>
+            <li class="reveal"><b>Live pulse</b><span>Chain, top pools and headlines right on this page.</span></li>
+            <li class="reveal"><b>Public launch</b><span>Hosted on its own domain at askClick.com.</span></li>
+            <li class="reveal"><b>New launch feed &amp; token compare <span class="new-badge">NEW</span></b><span>Every new token safety-checked on arrival, and any two tokens side by side. Voted by the community.</span></li>
+            <li class="reveal"><b>Portfolio value &amp; watchlist</b><span>What any wallet holds and is worth in USD, and a watchlist of your tokens and wallets.</span></li>
+            <li class="reveal"><b>Token safety check &amp; radar</b><span>Every pool with its real liquidity, top holders, plain safety signals, and what's trending.</span></li>
+            <li class="reveal"><b>Address &amp; transaction lookup</b><span>Balances, holdings, holders and transfers for any address or transaction — each with a link to share.</span></li>
+          </ul>
+        </div>
+        <div class="road-col next">
+          <h3><span class="road-badge next">Planned</span><span class="pulse-sub">not available yet</span></h3>
+          <ul>
+            <li class="reveal"><b>Shareable answers</b><span>A link to an answer with its sources.</span></li>
+            <li class="reveal"><b>Deeper research tools</b><span>Longer, multi-step research shaped by what people ask for.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq" aria-labelledby="faq-title">
+      <div class="faq-layout">
+        <div class="section-head">
+          <p class="eyebrow">FAQ</p>
+          <h2 id="faq-title">Good to know</h2>
+          <p class="section-lede">Short answers to what people ask first. Anything else — just ask Click.</p>
+          <div class="faq-actions">
+            <button class="btn btn-ghost" type="button" data-open-chat>Ask a question</button>
+            <a class="btn btn-ghost" href="/docs">Read the docs</a>
+          </div>
+        </div>
+        <div class="faq">
+          <details>
+            <summary>Where do the answers come from?</summary>
+            <p>Live facts — prices, transactions, news, repository contents — come only from the sources Click retrieves for your question, and every one is numbered and linked. If something can't be retrieved, Click says so instead of guessing.</p>
+          </details>
+          <details>
+            <summary>Which AI models answer?</summary>
+            <p>OpenRouter is the primary provider, with Gemini and Groq as automatic fallbacks. Each model is tried at most once per question, so a slow or failing provider never stalls your answer for long.</p>
+          </details>
+          <details>
+            <summary>Is my chat history stored on a server?</summary>
+            <p>No. Conversations are saved only in this browser. Delete a chat from the history menu and it's gone from this device. Only the recent turns of the chat you're in are sent along with a follow-up question.</p>
+          </details>
+          <details>
+            <summary>Can I paste any link?</summary>
+            <p>Public web pages and GitHub repositories, yes. Private networks, local addresses and unsafe links are blocked before anything is fetched.</p>
+          </details>
+          <details>
+            <summary>Is this financial advice?</summary>
+            <p>No. Market and on-chain data are shown as facts with their sources and time; analysis is labelled as analysis. Always do your own research.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Closing call to action -->
+    <section class="cta-band" aria-label="Ask Click">
+      <h2>Ready when you are.</h2>
+      <p>Ask about anything — the web, a repository, today's news or Solana.</p>
+      <button class="btn btn-primary" type="button" data-open-chat>Ask Click <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></button>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="logo" href="/" aria-label="Click home"><svg class="logo-mark" aria-hidden="true"><use href="#Click-mark" /></svg><span class="logo-word">Click</span></a>
+        <p class="footer-about">The AI engine that answers anything. Built to read the live web, code, news and Solana, and to show every source it used.</p>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <h4>Products</h4>
+          <button type="button" data-open-chat>Ask Click</button>
+          <button type="button" data-open-chat="What's happening on Solana today?">Chain Intel</button>
+          <button type="button" data-open-chat="Which Solana pools have the most liquidity right now?">Markets</button>
+          <button type="button" data-open-chat="Analyze https://github.com/honojs/hono">GitHub Intel</button>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <a href="/docs">Documentation</a>
+          <button type="button" data-open-menu="menu-sources">Sources</button>
+          <a href="#how">How it works</a>
+          <a href="/health" target="_blank" rel="noopener">API Status</a>
+          <a href="/models" target="_blank" rel="noopener">Models</a>
+        </div>
+        <div>
+          <h4>Explore</h4>
+          <a href="#pulse">Live pulse</a>
+          <a href="#lookup">Address lookup</a>
+          <a href="#portfolio">Portfolio</a>
+          <a href="#radar">Token radar</a>
+          <a href="#launches">New launches</a>
+          <a href="#compare">Token compare</a>
+          <a href="#glossary">Glossary</a>
+          <a href="#roadmap">Roadmap</a>
+          <a href="#faq">FAQ</a>
+        </div>
+      </div>
+    </div>
+    <div class="social">
+      <a class="social-x" data-social="x" href="#" target="_blank" rel="noopener" aria-label="Click on X" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-4.9-6.4L6.4 22H3.3l7.3-8.3L1 2h6.4l4.4 5.9L18.9 2Zm-1.1 18h1.7L6.3 3.9H4.5L17.8 20Z" /></svg>
+        <span>X</span>
+      </a>
+      <a class="social-x" data-social="telegram" href="#" target="_blank" rel="noopener" aria-label="Click community on Telegram" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.9 4.3 18.6 19.9c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.3-8.4c.4-.4-.1-.6-.6-.2L6 13.4 1.1 11.9c-1.1-.3-1.1-1.1.2-1.6L20.5 2.9c.9-.3 1.7.2 1.4 1.4Z" /></svg>
+        <span>Telegram</span>
+      </a>
+      <a class="social-x" data-social="github" href="#" target="_blank" rel="noopener" aria-label="Click source code on GitHub" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z" /></svg>
+        <span>Open source</span>
+      </a>
+    </div>
+    <p class="copyright">© 2026 Click. All rights reserved.</p>
+  </footer>
+
+  <!-- Chat (opened by "Ask Click"): conversation history + the active conversation -->
+  <div class="chat" id="chat" role="dialog" aria-modal="true" aria-label="Ask Click" hidden>
+    <aside class="history" id="history" aria-label="Conversations">
+      <button class="new-chat" type="button" data-new-chat>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>New chat
+      </button>
+      <p class="history-label">Recent</p>
+      <ol class="history-list" id="history-list"></ol>
+      <p class="history-empty" id="history-empty">No conversations yet.</p>
+    </aside>
+    <div class="history-backdrop" hidden></div>
+    <section class="chat-main">
+      <canvas class="chat-canvas" aria-hidden="true"></canvas>
+      <header class="chat-top">
+        <div class="chat-top-left">
+          <button class="icon-btn history-toggle" type="button" aria-label="Show conversations" aria-controls="history" aria-expanded="false" data-toggle-history>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10" /></svg>
+          </button>
+          <span class="logo"><svg class="logo-mark" aria-hidden="true"><use href="#Click-mark" /></svg><span class="logo-word">Click</span></span>
+        </div>
+        <div class="chat-top-right">
+          <button class="icon-btn new-chat-icon" type="button" aria-label="New chat" data-new-chat>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+          </button>
+          <button class="chat-close" type="button" aria-label="Close chat" data-close-chat>&times;</button>
+        </div>
+      </header>
+      <div class="chat-log" id="chat-log" aria-live="polite"></div>
+      <p class="persist-warning" id="persist-warning" role="status" hidden></p>
+      <form class="chat-form" id="chat-form" autocomplete="off">
+        <label class="sr-only" for="chat-input">Your question</label>
+        <textarea id="chat-input" rows="1" maxlength="4000" placeholder="Ask anything…" required></textarea>
+        <button class="btn btn-primary" type="submit" id="chat-send" aria-label="Send"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></button>
+      </form>
+    </section>
+  </div>
+
+  <script>
+    window.CLICK_CONFIG = window.CLICK_CONFIG || { social: { x: "", telegram: "", github: "" } };
+  </script>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

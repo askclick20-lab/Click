@@ -1,0 +1,15 @@
+Click
+=====
+
+Click is derived from TILIK (an earlier intelligence-engine codebase; some
+historical trees also used the Veyra name). The architecture — understand →
+plan → execute → verify → reason → answer — the Hono/TypeScript backend, the
+static web client, and the security/tooling layers were adapted from that
+product and ported from an EVM chain to Solana.
+
+The upstream tree did not ship a LICENSE file. Copying or redistributing this
+source is not clearly permitted. Treat Click as proprietary / all rights
+reserved until the rights holder publishes a grant.
+
+This NOTICE file is the canonical place for that attribution. Product code,
+tests, and operator docs use Click/Solana names only.
