@@ -3,6 +3,7 @@ dist/
 .env
 .env.*
 !.env.example
+vercel.production.env
 *.log
 # Local design references (third-party screen recording) — not part of the app
 v/
