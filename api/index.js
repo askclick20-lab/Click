@@ -1,10 +1,6 @@
-// Vercel function: every path that isn't a static file is rewritten here (see vercel.json).
-// The app is built from src/ into dist/ by `npm run build` before functions are bundled.
+// Vercel function: non-static paths rewrite here (see vercel.json).
+// Built app lives in dist/ (npm run build). hono/vercel import is required for Vercel's Hono builder.
+import { handle } from "hono/vercel";
 import { app } from "../dist/vercel.js";
 
-const handle = (request) => app.fetch(request);
-
-export const GET = handle;
-export const HEAD = handle;
-export const POST = handle;
-export const OPTIONS = handle;
+export default handle(app);
