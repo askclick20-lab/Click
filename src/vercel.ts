@@ -1,6 +1,7 @@
 import { createApp } from "./app.js";
 import { loadEnv, productionProblems } from "./config/env.js";
 import { createContainer } from "./container.js";
+import { withOriginalPath } from "./vercel-path.js";
 
 /**
  * Vercel entry: the same app as src/index.ts, as a fetch handler (no Node server, no .env file — settings
@@ -11,3 +12,8 @@ const problems = productionProblems(env);
 if (problems.length) throw new Error(`Refusing to start in production: ${problems.join("; ")}`);
 
 export const app = createApp(createContainer(env));
+export { withOriginalPath };
+
+export function vercelFetch(request: Request): Promise<Response> | Response {
+  return app.fetch(withOriginalPath(request));
+}

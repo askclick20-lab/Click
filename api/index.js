@@ -1,14 +1,14 @@
-// Vercel Node function (framework detection is off — see vercel.json "framework": null).
-// Static files come from web/; unmatched routes rewrite here after `npm run build` emits dist/.
-import { app } from "../dist/vercel.js";
+// Vercel Node function. Static files come from web/; other routes rewrite here (see vercel.json).
+import { vercelFetch } from "../dist/vercel.js";
 
-const handle = (request) => app.fetch(request);
+export const maxDuration = 300;
+export const runtime = "nodejs";
 
-export default handle;
-export const GET = handle;
-export const HEAD = handle;
-export const POST = handle;
-export const PUT = handle;
-export const PATCH = handle;
-export const DELETE = handle;
-export const OPTIONS = handle;
+export default vercelFetch;
+export const GET = vercelFetch;
+export const HEAD = vercelFetch;
+export const POST = vercelFetch;
+export const PUT = vercelFetch;
+export const PATCH = vercelFetch;
+export const DELETE = vercelFetch;
+export const OPTIONS = vercelFetch;

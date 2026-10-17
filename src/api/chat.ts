@@ -71,8 +71,13 @@ export function chatRoutes({ env, engine, logger, clientLimiter }: Container): H
     // v2: request.started → intent.detected → plan.created → status / tool.started / tool.completed
     //     → source.discovered → model.selected → response.delta* → response.completed (or error)
     // v1 (legacy): plan → sources → model → delta* → done (or error)
-    return streamSSE(c, async (stream) => {
+    // Flush headers immediately so Vercel/proxies do not buffer the whole answer (UI would sit on "Starting…").
+    c.header("Content-Type", "text/event-stream; charset=utf-8");
+    c.header("Cache-Control", "no-cache, no-transform");
+    c.header("X-Accel-Buffering", "no");
+    const res = streamSSE(c, async (stream) => {
       stream.onAbort(() => logger.info("stream.client_disconnected", { requestId: c.get("requestId") }));
+      await stream.writeSSE({ event: "status", data: JSON.stringify({ message: "Working…" }) });
       let completed = false;
       try {
         for await (const event of engine.askStream(req, signal, runOpts)) {
@@ -92,6 +97,9 @@ export function chatRoutes({ env, engine, logger, clientLimiter }: Container): H
         await stream.writeSSE({ event: "error", data: JSON.stringify(errBody) });
       }
     });
+    // Transfer-Encoding: chunked is invalid on HTTP/2 (Vercel) and can stall the stream.
+    res.headers.delete("Transfer-Encoding");
+    return res;
   });
 
   return app;

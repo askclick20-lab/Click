@@ -1466,7 +1466,8 @@ import { assistantMessageFrom, browserStorage, createConversationStore, createSi
         body: JSON.stringify({ message, stream: true, history, ...(context ? { context } : {}) }),
         signal: ctrl.signal,
       });
-      if (!res.ok || !res.body) {
+      const sseType = (res.headers.get("content-type") || "").includes("text/event-stream");
+      if (!res.ok || !res.body || !sseType) {
         const body = await res.json().catch(() => null);
         outcome = { error: turn.fail(body?.error?.kind, res.status) };
       } else {

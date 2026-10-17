@@ -120,7 +120,7 @@ describe("HTTP API", () => {
     const res = await app.request("/chat", { method: "POST", body: JSON.stringify({ message: "hello there", stream: true }) });
     const text = await res.text();
     const events = [...text.matchAll(/^event: ([\w.]+)$/gm)].map((m) => m[1]);
-    assert.deepEqual(events.slice(0, 4), ["request.started", "status", "intent.detected", "plan.created"]);
+    assert.deepEqual(events.slice(0, 5), ["status", "request.started", "status", "intent.detected", "plan.created"]);
     assert.ok(events.indexOf("model.selected") < events.indexOf("response.delta"));
     assert.equal(events.at(-1), "response.completed");
   });
@@ -129,7 +129,7 @@ describe("HTTP API", () => {
     const app = createApp(setup());
     const res = await app.request("/chat", { method: "POST", body: JSON.stringify({ message: "hello there", stream: true, streamFormat: "v1" }) });
     const events = [...(await res.text()).matchAll(/^event: ([\w.]+)$/gm)].map((m) => m[1]);
-    assert.deepEqual([events[0], events[1], events[2]], ["plan", "sources", "model"]);
+    assert.deepEqual([events[0], events[1], events[2], events[3]], ["status", "plan", "sources", "model"]);
     assert.equal(events.at(-1), "done");
     assert.ok(events.includes("delta"));
   });
