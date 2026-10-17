@@ -5,7 +5,6 @@
 v/
 refensi landing oage
 node_modules/
-dist/
 .git/
 .vercel/
 *.log

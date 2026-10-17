@@ -1,4 +1,4 @@
-// Vercel Node function. Static files come from web/; other routes rewrite here (see vercel.json).
+// Vercel catch-all: /api/pulse, /api/lookup, … and rewrites of /chat, /health, /models.
 import { vercelFetch } from "../dist/vercel.js";
 
 export const maxDuration = 300;

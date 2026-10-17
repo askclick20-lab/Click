@@ -7,11 +7,16 @@
   "cleanUrls": true,
   "regions": ["sin1"],
   "functions": {
-    "api/index.js": { "maxDuration": 300 }
+    "api/[[...path]].js": {
+      "maxDuration": 300,
+      "includeFiles": "dist/**"
+    }
   },
   "rewrites": [
     { "source": "/chat/:id", "destination": "/" },
-    { "source": "/(.*)", "destination": "/api/index?__clickPath=$1" }
+    { "source": "/chat", "destination": "/api/chat" },
+    { "source": "/health", "destination": "/api/health" },
+    { "source": "/models", "destination": "/api/models" }
   ],
   "headers": [
     {
